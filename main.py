@@ -13,7 +13,15 @@ led_pins = [
     board.IO21,
     board.IO26, # type: ignore
     board.IO47,
-    # do the rest...
+    board.IO33, # type: ignore
+    board.IO34, # type: ignore
+    board.IO48,
+    board.IO35,
+    board.IO36,
+    board.IO37,
+    board.IO38,
+    board.IO39
+
 ]
 
 leds = [DigitalInOut(pin) for pin in led_pins]
@@ -23,14 +31,17 @@ for led in leds:
 
 # main loop
 while True:
-    volume = microphone.value
+    volume = int((microphone.value - 15000) / 2730)
 
     print(volume)
 
-    leds[0].value = not leds[0].value
-    leds[1].value = not leds[0].value
+    for i in range (0, volume):
+        leds[i].value = True
+    sleep(0.1)
 
-    sleep(1)
+    for i in range (0, volume):
+        leds[i].value = False
+    sleep(0.1)
 
     # instead of blinking,
     # how can you make the LEDs
